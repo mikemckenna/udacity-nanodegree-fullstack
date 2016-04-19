@@ -10,6 +10,7 @@ vagrant
 psql
   psql [datbase] - connect to database from command prompt
   \c [database]  - connect to database from within psql prompt
-  \i [file name] - import file or execute filep
+  \i [file name] - import file or execute file
+  \d+            - list all objects in database ('+' give more info)
   \q             - quit psql
   \? or "help"   - help
