@@ -21,7 +21,11 @@ def HelloWorld():
     output = ''
     for i in items:
         output += i.name
-        output += '</br>'
+        output += '<br>'
+        output += i.description
+        output += '<br>'
+        output += i.price
+        output += '<br><br>'
     return output
 
 if __name__ == '__main__':
