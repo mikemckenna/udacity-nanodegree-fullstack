@@ -1,5 +1,9 @@
-<!DOCTYPE html5>
+<!DOCTYPE html>
 <html>
+<head>
+<title>Restaurant Menus</title>
+<link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}" media="screen" title="no title" charset="utf-8">
+</head>
 <body>
 
     <form action="{{url_for('editMenuItem', restaurant_id = restaurant_id, menu_id=item.id)}}" method="POST">
