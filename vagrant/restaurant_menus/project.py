@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -18,17 +18,19 @@ app = Flask(__name__)
 def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
-    output = ''
-    output += '<h1>%s</h1>' % restaurant.name
-
-    for i in items:
-        output += i.name
-        output += '<br>'
-        output += i.description
-        output += '<br>'
-        output += i.price
-        output += '<br><br>'
-    return output
+    return render_template('menu.html', restaurant=restaurant, items=items)
+    
+    # output = ''
+    # output += '<h1>%s</h1>' % restaurant.name
+    #
+    # for i in items:
+    #     output += i.name
+    #     output += '<br>'
+    #     output += i.description
+    #     output += '<br>'
+    #     output += i.price
+    #     output += '<br><br>'
+    # return output
 
 
 # Task 1: Create route for newMenuItem function here
