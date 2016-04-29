@@ -7,6 +7,12 @@ vagrant
   vagrant halt    - shutdown VM box
   exit            - exit an ssh connection
 
+port collision
+  man lsof                          - help manual for list open files command
+  lsof -i                           - list what is listening on specified port
+  lsof -i :port (i.e lsof -i :8080) - list what is listening/bound on specified port
+  kill -9 [PID] (i.e. kill -9 5436) - kill process by process id
+
 psql
   psql [datbase] - connect to database from command prompt
   \c [database]  - connect to database from within psql prompt
