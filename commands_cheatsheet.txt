@@ -1,7 +1,7 @@
 vagrant
   vagrant up      - start VM box/environment
   vagrant status  - see what VM boxes are running
-  vagrant reload  - reload VM box (helps w/ port collisions)
+  vagrant reload  - reload VM box
   vagrant ssh     - connect to VM box
   vagrant destroy - permanently destroy VM box
   vagrant halt    - shutdown VM box
