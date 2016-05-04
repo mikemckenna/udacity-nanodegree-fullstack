@@ -9,4 +9,17 @@
   </div>
 </div>
 
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-danger" role="alert">
+      Are you sure you want to delete <strong>{{restaurant.name}}</strong> Restaurant?
+    </div>
+  </div>
+</div>
+
+<form class="col-md-6" action="{{url_for('deleteRestaurant', restaurant_id=restaurant.id)}}" method="POST">
+  <button type="submit" class="btn btn-danger">Delete</button>
+  <a class="btn btn-default" href="{{url_for('showRestaurants')}}" role="button">Cancel</a>
+</form>
+
 {% endblock %}

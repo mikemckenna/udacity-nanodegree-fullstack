@@ -42,7 +42,7 @@ def newRestaurant():
         return render_template('restaurant_new.html', breadcrumbs=breadcrumbs)
 
 
-@app.route('/restaurant/<int:restaurant_id>/edit')
+@app.route('/restaurant/<int:restaurant_id>/edit', methods=['GET', 'POST'])
 def editRestaurant(restaurant_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
@@ -51,13 +51,20 @@ def editRestaurant(restaurant_id):
     return render_template('restaurant_edit.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
 
 
-@app.route('/restaurant/<int:restaurant_id>/delete')
+@app.route('/restaurant/<int:restaurant_id>/delete', methods=['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
                    {'text': 'Delete'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    return render_template('restaurant_delete.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
+
+    if request.method == 'POST':
+        session.delete(restaurant)
+        session.commit()
+        flash("Restaurant has been deleted from the database!")
+        return redirect(url_for('showRestaurants'))
+    else:
+        return render_template('restaurant_delete.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
 
 
 @app.route('/restaurant/<int:restaurant_id>')
@@ -71,7 +78,7 @@ def showMenu(restaurant_id):
     return render_template('menu.html', breadcrumbs=breadcrumbs, restaurant=restaurant, items=items)
 
 
-@app.route('/restaurant/<int:restaurant_id>/menu/new')
+@app.route('/restaurant/<int:restaurant_id>/menu/new', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
@@ -81,7 +88,7 @@ def newMenuItem(restaurant_id):
     return render_template('menu_item_new.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
 
 
-@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/edit')
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/edit', methods=['GET', 'POST'])
 def editMenuItem(restaurant_id, menu_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
@@ -92,7 +99,7 @@ def editMenuItem(restaurant_id, menu_id):
     return render_template('menu_item_edit.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=item)
 
 
-@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete')
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete', methods=['GET', 'POST'])
 def deleteMenuItem(restaurant_id, menu_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
