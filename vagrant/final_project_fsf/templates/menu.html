@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <a class="btn btn-primary pull-right" href="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}" role="button">Add New Menu Item</a>
+      <h2>{{restaurant.name}}'s Menu</h2>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

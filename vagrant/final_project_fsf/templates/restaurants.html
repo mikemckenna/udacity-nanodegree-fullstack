@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="page-header">
+        <a class="btn btn-primary pull-right" href="{{url_for('newRestaurant')}}" role="button">Add New Restaurant</a>
+        <h2>List of Restaurants</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped table-hover">
+        <thead>
+          <th>Name</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          {% for restaurant in restaurants %}
+            <tr>
+              <td>{{restaurant.name}}</td>
+              <td>
+                <a href="{{url_for('showMenu', restaurant_id=restaurant.id )}}">View Menu</a> |
+                <a href="{{url_for('editRestaurant', restaurant_id=restaurant.id )}}">Edit</a> |
+                <a href="{{url_for('deleteRestaurant', restaurant_id=restaurant.id )}}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{% endblock %}
