@@ -47,8 +47,17 @@ def editRestaurant(restaurant_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
                    {'text': 'Edit'}]
-    restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    return render_template('restaurant_edit.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
+    editedRestaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
+
+    if request.method == 'POST':
+        if request.form['name']:
+            editedRestaurant.name = request.form['name']
+            session.add(editedRestaurant)
+            session.commit()
+            flash("Restaurant has been updated!")
+            return redirect(url_for('showRestaurants'))
+    else:
+        return render_template('restaurant_edit.html', breadcrumbs=breadcrumbs, restaurant=editedRestaurant)
 
 
 @app.route('/restaurant/<int:restaurant_id>/delete', methods=['GET', 'POST'])
