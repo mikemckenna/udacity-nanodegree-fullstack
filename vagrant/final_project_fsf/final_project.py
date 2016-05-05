@@ -94,7 +94,19 @@ def newMenuItem(restaurant_id):
                    {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'New Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    return render_template('menu_item_new.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
+
+    if request.method == 'POST':
+        newMenuItem = MenuItem(name=request.form['name'],
+                               course=request.form['course'],
+                               description=request.form['description'],
+                               price=request.form['price'],
+                               restaurant_id=restaurant_id)
+        session.add(newMenuItem)
+        session.commit()
+        flash("New menu item has been added!")
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('menu_item_new.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
 
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/edit', methods=['GET', 'POST'])
@@ -104,8 +116,19 @@ def editMenuItem(restaurant_id, menu_id):
                    {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'Edit Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    item = session.query(MenuItem).filter_by(menu_id=menu_id).one()
-    return render_template('menu_item_edit.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=item)
+    editedMenuItem = session.query(MenuItem).filter_by(menu_id=menu_id).one()
+    if request.method == 'POST':
+        editedMenuItem.name = request.form['name']
+        editedMenuItem.course = request.form['course']
+        editedMenuItem.description = request.form['description']
+        editedMenuItem.price = request.form['price']
+        editedMenuItem.restaurant_id = restaurant_id
+        session.add(editedMenuItem)
+        session.commit()
+        flash("Menu item has been updated!")
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('menu_item_edit.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=editedMenuItem)
 
 
 @app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/delete', methods=['GET', 'POST'])
