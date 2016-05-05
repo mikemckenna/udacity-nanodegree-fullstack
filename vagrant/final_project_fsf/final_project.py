@@ -139,7 +139,14 @@ def deleteMenuItem(restaurant_id, menu_id):
                    {'text': 'Delete Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     item = session.query(MenuItem).filter_by(id=menu_id).one()
-    return render_template('menu_item_delete.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=item)
+
+    if request.method == 'POST':
+        session.delete(item)
+        session.commit()
+        flash("Menu Item has been deleted from the database!")
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
+    else:
+        return render_template('menu_item_delete.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=item)
 
 
 # JSON API Endpoints
