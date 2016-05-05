@@ -9,4 +9,28 @@
   </div>
 </div>
 
+<form class="col-md-6" action="{{url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id)}}" method="POST">
+  <div class="form-group">
+    <label for="name">Menu Item Name</label>
+    <input type="input" class="form-control" id="name" name="name" placeholder="{{item.name}}">
+  </div>
+  <div class="form-group">
+    <label for="course">Course</label>
+    <input type="input" class="form-control" id="course" name="course" placeholder="{{item.course}}">
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <input type="input" class="form-control" id="description" name="description" placeholder="{{item.description}}">
+  </div>
+  <div class="form-group">
+    <label for="price">Price</label>
+    <div class="input-group">
+      <span class="input-group-addon">$</span>
+      <input type="input" class="form-control" id="price" name="price" placeholder="{{item.price}}">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a class="btn btn-default" href="{{url_for('showMenu', restaurant_id=restaurant.id)}}" role="button">Cancel</a>
+</form>
+
 {% endblock %}

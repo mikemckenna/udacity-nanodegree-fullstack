@@ -116,7 +116,7 @@ def editMenuItem(restaurant_id, menu_id):
                    {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'Edit Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    editedMenuItem = session.query(MenuItem).filter_by(menu_id=menu_id).one()
+    editedMenuItem = session.query(MenuItem).filter_by(id=menu_id).one()
     if request.method == 'POST':
         editedMenuItem.name = request.form['name']
         editedMenuItem.course = request.form['course']
@@ -138,7 +138,7 @@ def deleteMenuItem(restaurant_id, menu_id):
                    {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'Delete Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-    item = session.query(MenuItem).filter_by(menu_id=menu_id).one()
+    item = session.query(MenuItem).filter_by(id=menu_id).one()
     return render_template('menu_item_delete.html', breadcrumbs=breadcrumbs, restaurant=restaurant, item=item)
 
 
