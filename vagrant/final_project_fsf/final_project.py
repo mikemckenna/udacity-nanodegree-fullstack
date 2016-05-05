@@ -91,7 +91,7 @@ def showMenu(restaurant_id):
 def newMenuItem(restaurant_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
-                   {'text': 'Menu', 'href': '/restaurant/<int:restaurant_id>/menu/new'},
+                   {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'New Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     return render_template('menu_item_new.html', breadcrumbs=breadcrumbs, restaurant=restaurant)
@@ -101,7 +101,7 @@ def newMenuItem(restaurant_id):
 def editMenuItem(restaurant_id, menu_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
-                   {'text': 'Menu', 'href': '/restaurant/<int:restaurant_id>/menu/new'},
+                   {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'Edit Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     item = session.query(MenuItem).filter_by(menu_id=menu_id).one()
@@ -112,7 +112,7 @@ def editMenuItem(restaurant_id, menu_id):
 def deleteMenuItem(restaurant_id, menu_id):
     breadcrumbs = [{'text': 'Home', 'href': '/'},
                    {'text': 'Restaurants', 'href': '/restaurants'},
-                   {'text': 'Menu', 'href': '/restaurant/<int:restaurant_id>/menu/new'},
+                   {'text': 'Menu', 'href': '/restaurant/%s/menu' % restaurant_id},
                    {'text': 'Delete Item'}]
     restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
     item = session.query(MenuItem).filter_by(menu_id=menu_id).one()
