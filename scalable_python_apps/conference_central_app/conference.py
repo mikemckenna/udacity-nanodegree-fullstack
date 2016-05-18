@@ -38,10 +38,11 @@ API_EXPLORER_CLIENT_ID = endpoints.API_EXPLORER_CLIENT_ID
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-@endpoints.api( name='conference',
-                version='v1',
-                allowed_client_ids=[WEB_CLIENT_ID, API_EXPLORER_CLIENT_ID],
-                scopes=[EMAIL_SCOPE])
+
+@endpoints.api(name='conference',
+               version='v1',
+               allowed_client_ids=[WEB_CLIENT_ID, API_EXPLORER_CLIENT_ID],
+               scopes=[EMAIL_SCOPE])
 class ConferenceApi(remote.Service):
     """Conference API v0.1"""
 
@@ -55,36 +56,35 @@ class ConferenceApi(remote.Service):
             if hasattr(prof, field.name):
                 # convert t-shirt string to Enum; just copy others
                 if field.name == 'teeShirtSize':
-                    setattr(pf, field.name, getattr(TeeShirtSize, getattr(prof, field.name)))
+                    setattr(pf, field.name, getattr(
+                        TeeShirtSize, getattr(prof, field.name)))
                 else:
                     setattr(pf, field.name, getattr(prof, field.name))
         pf.check_initialized()
         return pf
 
-
     def _getProfileFromUser(self):
         """Return user Profile from datastore, creating new one if non-existent."""
-        ## TODO 2
-        ## step 1: make sure user is authed
-        ## uncomment the following lines:
+        # TODO 2
+        # step 1: make sure user is authed
+        # uncomment the following lines:
         # user = endpoints.get_current_user()
         # if not user:
         #     raise endpoints.UnauthorizedException('Authorization required')
         profile = None
-        ## step 2: create a new Profile from logged in user data
-        ## you can use user.nickname() to get displayName
-        ## and user.email() to get mainEmail
+        # step 2: create a new Profile from logged in user data
+        # you can use user.nickname() to get displayName
+        # and user.email() to get mainEmail
         if not profile:
             profile = Profile(
-                userId = None,
-                key = None,
-                displayName = "Test", 
-                mainEmail= None,
-                teeShirtSize = str(TeeShirtSize.NOT_SPECIFIED),
+                userId=None,
+                key=None,
+                displayName="Test",
+                mainEmail=None,
+                teeShirtSize=str(TeeShirtSize.NOT_SPECIFIED),
             )
 
         return profile      # return Profile
-
 
     def _doProfile(self, save_request=None):
         """Get user Profile and return to user, possibly updating it first."""
@@ -102,9 +102,8 @@ class ConferenceApi(remote.Service):
         # return ProfileForm
         return self._copyProfileToForm(prof)
 
-
     @endpoints.method(message_types.VoidMessage, ProfileForm,
-            path='profile', http_method='GET', name='getProfile')
+                      path='profile', http_method='GET', name='getProfile')
     def getProfile(self, request):
         """Return user profile."""
         return self._doProfile()
@@ -112,12 +111,12 @@ class ConferenceApi(remote.Service):
     # TODO 1
     # 1. change request class
     # 2. pass request to _doProfile function
-    @endpoints.method(message_types.VoidMessage, ProfileForm,
-            path='profile', http_method='POST', name='saveProfile')
+    @endpoints.method(ProfileMiniForm, ProfileForm,
+                      path='profile', http_method='POST', name='saveProfile')
     def saveProfile(self, request):
         """Update & return user profile."""
-        return self._doProfile()
+        return self._doProfile(request)
 
 
 # registers API
-api = endpoints.api_server([ConferenceApi]) 
+api = endpoints.api_server([ConferenceApi])
