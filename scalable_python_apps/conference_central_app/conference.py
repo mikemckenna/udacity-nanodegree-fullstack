@@ -250,7 +250,8 @@ class ConferenceApi(remote.Service):
                       name='queryConferences')
     def queryConferences(self, request):
         """Query for conferences."""
-        conferences = Conference.query()
+        # conferences = Conference.query()
+        conferences = self._getQuery(request)
 
         # return individual ConferenceForm object per Conference
         return ConferenceForms(
@@ -350,24 +351,12 @@ class ConferenceApi(remote.Service):
                       path='filterPlayground',
                       http_method='GET', name='filterPlayground')
     def filterPlayground(self, request):
-        q = Conference.query()
-
-        # simple filter usage:
-        # q = q.filter(Conference.city == "Paris")
-
-        # advanced filter building and usage
-        # field = "city"
-        # operator = "="
-        # value = "London"
-        # f = ndb.query.FilterNode(field, operator, value)
-        # q = q.filter(f)
-
-        # add 2 filters:
-        # 1: city equals to London
-        # 2: topic equals "Medical Innovations"
-        q = q.filter(Conference.city == "London")
-        q = q.filter(Conference.topics == "Medical Innovations")
-        q = q.order(Conference.name)
+        q = Conference.query().\
+            q.filter(Conference.city == "London").\
+            q.filter(Conference.topics == "Medical Innovations").\
+            q.filter(Conference.month == 6).\
+            q.filter(Conference.maxAttendees > 10).\
+            q.order(Conference.name)
 
         return ConferenceForms(
             items=[self._copyConferenceToForm(conf, "") for conf in q]
