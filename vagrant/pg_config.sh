@@ -1,3 +1,12 @@
+# Provision For Linux Command Line Basics course
+
+apt-get install cowsay unzip
+rm /usr/share/cowsay/cows/*odo*
+
+# Provision For Python Foundations,
+#               Full Stack Foundation,
+#               Intro Relational DB courses
+
 apt-get -qqy update
 apt-get -qqy install postgresql python-psycopg2
 apt-get -qqy install python-flask python-sqlalchemy
