@@ -86,3 +86,4 @@ http://packages.ubuntu.com: search for packages
     a) config file location: /etc/apache2/sites-enabled/000-default.conf
     b) add 'WSGIScriptAlias / /var/www/html/myapp.wsgi' before the </VirtualHost> closing tag
     c) restart appache server: sudo apache2ctl restart
+8. Install database for persistent storage if web application needs it (sudo apt-get install postgresql)
