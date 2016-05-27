@@ -1,0 +1,88 @@
+- Linux directories:
+-----------------------------
+root, /
+  /home
+    /[user1]
+    /[user2]
+
+/home:  where user directories are located
+/etc:   where server config files are located
+/var:   where variable files are located (files expected to grow/shrink over time, i.e. logs)
+/bin:   executable binaries for all users (required for boot-up) are located here
+/sbin:  executable binaries for root user are located here
+/lib:   support executable binaries for system
+/usr:   executable binaries for users (not required for boot-up) are located here
+
+/etc/passwd:    tracks all user on your system; each line is a user (can 'cat' to view file in terminal)
+/etc/sudoers:   list of users that have sudo access (can 'cat' to view file in terminal)
+
+
+- Rule Of Least Privilege: user or application only has enough permission to do its job, nothing extra
+-----------------------------
+
+
+- Super user (root):
+-----------------------------
+sudo: allows to run admin/root user command under current user account
+su:   avoid using su it goes against Rule of Least Privilege
+
+sudo adduser [username]:    create a new user on linux
+sudo passwd -e [username]:  reset/expire user's password immediately
+finger [username]:          get user info
+ssh [username]@[ip address] -p [port] (example: ssh vagrant@127.0.0.1 -p 2222)
+
+
+- File Permissions:
+-----------------------------
+owner   group   everyone
+rwx     rwx     rwx       => owner, group, everyone can read, write, & execute this file/directory
+rwx     rw-     r--       => owner can read, write, & execute this file/directory, group can read & write, everyone can read
+
+r = read    (4)
+w = write   (2)
+x = execute (1)
+- = none    (0)
+
+sudo chmod [Octal Permissions] [file/directory]:  change file/directory permissions
+sudo chown [owner] [file/directory]:              change file/directory owner
+sudo chgrp [group] [file/directory]:              change file/directory group
+
+
+- Ports & Firewalls:
+-----------------------------
+HTTP: 80      HTTPS:  443
+SSH:  22      FTP:    21
+POP3: 110     SMTP:   25
+
+Firewall tells which ports to listen to/allow requests for
+
+sudo ufw status:                  get ubuntu firewall status (ufw firewall comes standard with Ubuntu)
+sudo ufw default deny incoming:   set firewall to deny all incoming traffic by default
+sudo ufw default allow outgoing:  set firewall to allow all outgoing traffic by default
+sudo ufw allow ssh:               set firewall to allow ssh connections
+sudo ufw allow 2222/tcp:          allow incoming traffic on port 2222 (port vagrant sets up ssh for us)
+sudo ufw allow www:               allow http server (for web traffic)
+sudo ufw enable:                  enables / starts the Ubuntu firewall (BE SURE CONFIGS ARE CORRECT, could loose access to server otherwise!)
+
+
+- Updating Software Packages:
+-----------------------------
+sudo apt-get update:      updates package source list, doesn't install anything - just notifies system of any updates
+sudo apt-get upgrade:     upgrades packages
+sudo apt-get autoremove:  remove packages that are no longer required
+
+http://packages.ubuntu.com: search for packages
+
+
+- Setup/Build Webserver:
+-----------------------------
+1. setup firewall (if needed)
+2. Ensure correct port forwarding
+3. Install Apache HTTP-Server:  sudo apt-get install apache2
+4. Confirm Apache working by visiting http://localhost:8080/ (or port defined)
+5. Apache serves its files from /var/www/html (index.html here)
+6. Install application handler - mod_wsgi: sudo apt-get install libapache2-mod-wsgi
+7. Configure Apache to handle requests using WSGI module:
+    a) config file location: /etc/apache2/sites-enabled/000-default.conf
+    b) add 'WSGIScriptAlias / /var/www/html/myapp.wsgi' before the </VirtualHost> closing tag
+    c) restart appache server: sudo apache2ctl restart
